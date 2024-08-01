@@ -101,3 +101,34 @@ class Ball {
   move() {
     this.x += this.dx;
     this.y += this.dy;
+
+    // Wall collision
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.dx = -this.dx;
+      sounds.wall.play();
+    }
+    if (this.y - this.radius < 0) {
+      this.dy = -this.dy;
+      sounds.wall.play();
+    }
+
+    // Paddle collision
+    if (this.y + this.radius > paddle.y && 
+        this.x > paddle.x && 
+        this.x < paddle.x + paddle.width) {
+      this.dy = -this.dy;
+      sounds.paddle.play();
+    }
+
+    // Bottom collision
+    if (this.y + this.radius > canvas.height) {
+      lives--;
+      updateInfo();
+      if (lives === 0) {
+        gameOver();
+      } else {
+        this.reset();
+      }
+    }
+  }
+}
