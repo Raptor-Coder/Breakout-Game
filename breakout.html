@@ -37,3 +37,36 @@
 <script>
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+// Game variables
+let paddle, ball, bricks = [];
+let score = 0, lives = 3, level = 1;
+const maxLevels = 5;
+
+// Sound effects
+const sounds = {
+  paddle: new Howl({ src: ['paddle_hit.wav'] }),
+  brick: new Howl({ src: ['brick_hit.wav'] }),
+  wall: new Howl({ src: ['wall_hit.wav'] }),
+  levelUp: new Howl({ src: ['level_up.wav'] }),
+  gameOver: new Howl({ src: ['game_over.wav'] })
+};
+
+// Paddle
+class Paddle {
+  constructor() {
+    this.width = 100;
+    this.height = 20;
+    this.x = canvas.width / 2 - this.width / 2;
+    this.y = canvas.height - this.height - 10;
+    this.speed = 8;
+  }
+
+  draw() {
+    ctx.fillStyle = '#0f0';
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  move(direction) {
+    if (direction === 'left' && this.x > 0) {
+      this.x -= this.speed;
