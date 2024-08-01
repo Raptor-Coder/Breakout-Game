@@ -70,3 +70,34 @@ class Paddle {
   move(direction) {
     if (direction === 'left' && this.x > 0) {
       this.x -= this.speed;
+} else if (direction === 'right' && this.x + this.width < canvas.width) {
+      this.x += this.speed;
+    }
+  }
+}
+
+// Ball
+class Ball {
+  constructor() {
+    this.radius = 10;
+    this.reset();
+  }
+
+  reset() {
+    this.x = canvas.width / 2;
+    this.y = canvas.height - 30;
+    this.dx = 4 * (Math.random() > 0.5 ? 1 : -1);
+    this.dy = -4;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = '#0f0';
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  move() {
+    this.x += this.dx;
+    this.y += this.dy;
