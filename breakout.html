@@ -170,3 +170,52 @@ function createBricks() {
 // Draw game
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  paddle.draw();
+  ball.draw();
+  bricks.forEach(brick => brick.draw());
+}
+
+// Update game
+function update() {
+  ball.move();
+  
+  bricks.forEach((brick, index) => {
+    if (brick.visible && 
+        ball.x + ball.radius > brick.x && 
+        ball.x - ball.radius < brick.x + brick.width &&
+        ball.y + ball.radius > brick.y && 
+        ball.y - ball.radius < brick.y + brick.height) {
+      ball.dy = -ball.dy;
+      brick.visible = false;
+      score += 10;
+      sounds.brick.play();
+      updateInfo();
+
+      if (bricks.every(b => !b.visible)) {
+        levelUp();
+      }
+    }
+  });
+}
+
+// Game loop
+function gameLoop() {
+  draw();
+  update();
+  requestAnimationFrame(gameLoop);
+}
+
+// Level up
+function levelUp() {
+  if (level < maxLevels) {
+    level++;
+    updateInfo();
+    bricks = [];
+    createBricks();
+    ball.reset();
+    sounds.levelUp.play();
+  } else {
+    gameOver(true);
+  }
+}
