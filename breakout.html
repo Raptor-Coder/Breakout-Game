@@ -219,3 +219,51 @@ function levelUp() {
     gameOver(true);
   }
 }
+
+// Game over
+function gameOver(win = false) {
+  if (win) {
+    alert('Congratulations! You beat all levels!');
+  } else {
+    sounds.gameOver.play();
+    alert('Game Over! Your final score: ' + score);
+  }
+  document.location.reload();
+}
+
+// Update info
+function updateInfo() {
+  document.getElementById('level').textContent = level;
+  document.getElementById('score').textContent = score;
+  document.getElementById('lives').textContent = lives;
+}
+
+// Initialize game
+function init() {
+  paddle = new Paddle();
+  ball = new Ball();
+  createBricks();
+  updateInfo();
+  gameLoop();
+}
+
+// Event listeners
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') {
+    paddle.move('left');
+  } else if (e.key === 'ArrowRight') {
+    paddle.move('right');
+  }
+});
+
+document.addEventListener('mousemove', e => {
+  const relativeX = e.clientX - canvas.offsetLeft;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddle.x = relativeX - paddle.width / 2;
+  }
+});
+
+// Start the game
+init();
+</script>
+</body></html>
