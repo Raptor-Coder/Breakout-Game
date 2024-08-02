@@ -132,3 +132,41 @@ class Ball {
     }
   }
 }
+
+// Brick
+class Brick {
+  constructor(x, y, color) {
+    this.width = 75;
+    this.height = 20;
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.visible = true;
+  }
+
+  draw() {
+    if (this.visible) {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+}
+
+// Create bricks
+function createBricks() {
+  const rows = 5;
+  const cols = 8;
+  const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff'];
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      const x = j * (80 + 5) + 35;
+      const y = i * (25 + 5) + 30;
+      bricks.push(new Brick(x, y, colors[i]));
+    }
+  }
+}
+
+// Draw game
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
